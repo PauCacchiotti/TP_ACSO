@@ -16,9 +16,6 @@ extern str_concat
 extern strlen
 extern strcpy
 
-; ------------------------------
-; string_proc_list_create_asm
-; ------------------------------
 string_proc_list_create_asm:
     push rbp
     mov rbp, rsp
@@ -26,15 +23,12 @@ string_proc_list_create_asm:
     call malloc
     test rax, rax
     jz .done
-    mov qword [rax], 0        ; first
-    mov qword [rax + 8], 0    ; last
+    mov qword [rax], 0        
+    mov qword [rax + 8], 0  
 .done:
     pop rbp
     ret
 
-; ------------------------------
-; string_proc_node_create_asm
-; ------------------------------
 string_proc_node_create_asm:
     test rsi, rsi
     jz .return_null
@@ -44,19 +38,16 @@ string_proc_node_create_asm:
     pop rdi
     test rax, rax
     jz .return_null
-    mov qword [rax + 0], 0       ; next
-    mov qword [rax + 8], 0       ; previous
-    mov byte  [rax + 16], dil    ; type
-    mov qword [rax + 24], rsi    ; hash
+    mov qword [rax + 0], 0       
+    mov qword [rax + 8], 0      
+    mov byte  [rax + 16], dil    
+    mov qword [rax + 24], rsi    
 .done:
     ret
 .return_null:
     xor rax, rax
     jmp .done
 
-; ------------------------------
-; string_proc_list_add_node_asm
-; ------------------------------
 string_proc_list_add_node_asm:
     push rbp
     mov rbp, rsp
@@ -70,16 +61,16 @@ string_proc_list_add_node_asm:
     test rdx, rdx
     jz .epilogue
 
-    mov rbx, rdi        ; list
-    mov r13b, sil       ; type
-    mov r14, rdx        ; hash
+    mov rbx, rdi      
+    mov r13b, sil    
+    mov r14, rdx        
 
     movzx rdi, r13b
     mov rsi, r14
     call string_proc_node_create_asm
     test rax, rax
     jz .epilogue
-    mov r12, rax        ; new_node
+    mov r12, rax      
 
     cmp qword [rbx], 0
     jne .append
@@ -90,10 +81,10 @@ string_proc_list_add_node_asm:
     jmp .epilogue
 
 .append:
-    mov rcx, [rbx + 8]      ; last
-    mov [rcx], r12          ; last->next = new_node
-    mov [r12 + 8], rcx      ; new_node->previous = last
-    mov [rbx + 8], r12      ; list->last = new_node
+    mov rcx, [rbx + 8]     
+    mov [rcx], r12         
+    mov [r12 + 8], rcx      
+    mov [rbx + 8], r12     
 
 .epilogue:
     pop r14
@@ -103,9 +94,7 @@ string_proc_list_add_node_asm:
     leave
     ret
 
-; ------------------------------
-; string_proc_list_concat_asm
-; ------------------------------
+
 string_proc_list_concat_asm:
     push rbp
     mov rbp, rsp
@@ -120,9 +109,9 @@ string_proc_list_concat_asm:
     test rdx, rdx
     jz .return_null
 
-    mov r12, rdi        ; list
-    mov r13b, sil       ; type
-    mov r14, rdx        ; hash
+    mov r12, rdi       
+    mov r13b, sil       
+    mov r14, rdx       
 
     mov rdi, r14
     call strlen
