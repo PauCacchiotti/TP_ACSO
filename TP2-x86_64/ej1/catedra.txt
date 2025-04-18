@@ -1,0 +1,81 @@
+== Ejercicio 1a ==$
+$
+Creando lista vacia$
+$
+======================== Libera memoria =======================$
+$
+Creando nodo vacio$
+$
+======================== Libera memoria =======================$
+$
+Creando lista vacia$
+$
+List length: 0$
+$
+Agregando estrellas:$
+$
+List length: 12$
+^Inode hash: sol | type: 7$
+^Inode hash: polaris | type: 6$
+^Inode hash: rigel | type: 1$
+^Inode hash: pollux | type: 3$
+^Inode hash: deneb | type: 1$
+^Inode hash: adhara | type: 7$
+^Inode hash: betelgeuse | type: 2$
+^Inode hash: sirio | type: 4$
+^Inode hash: procyon | type: 1$
+^Inode hash: altair | type: 5$
+^Inode hash: achenar | type: 2$
+^Inode hash: fomalhaut | type: 3$
+$
+======================== Libera memoria =======================$
+$
+Creando lista vacia$
+$
+Agregando constelaciones y misiones:$
+$
+List length: 28$
+^Inode hash: geminis | type: 2$
+^Inode hash: pisis | type: 3$
+^Inode hash: cefeo | type: 3$
+^Inode hash: pavo | type: 6$
+^Inode hash: libra | type: 4$
+^Inode hash: auriga | type: 2$
+^Inode hash: sagitario | type: 4$
+^Inode hash: pavo | type: 0$
+^Inode hash: crux | type: 3$
+^Inode hash: cisne | type: 0$
+^Inode hash: orion | type: 7$
+^Inode hash: centauro | type: 5$
+^Inode hash: juno | type: 6$
+^Inode hash: hubble | type: 2$
+^Inode hash: irazusta | type: 6$
+^Inode hash: terra | type: 3$
+^Inode hash: cassini-huygens | type: 3$
+^Inode hash: artemis | type: 7$
+^Inode hash: columbia | type: 1$
+^Inode hash: kepler | type: 2$
+^Inode hash: aqua | type: 6$
+^Inode hash: sputnik | type: 2$
+^Inode hash: insight | type: 5$
+^Inode hash: messenger | type: 7$
+^Inode hash: osiris | type: 1$
+^Inode hash: rex | type: 0$
+^Inode hash: chandra | type: 3$
+^Inode hash: curiosity | type: 2$
+$
+======================== Libera memoria =======================$
+$
+======================== Fin del test 1a ========================= Ejercicio 1b ==$
+$
+Agregando constelaciones y misiones:$
+$
+junta-constelaciones-mision-estrellas:librarigelcruxlibrajunodenebaurigalunadionelunaisspalas$
+junta-constelaciones-mision-estrellas:aurigabetelgeusecentaurojunopolluxadharabetelgeusesiriogeminisorioncentaurobetelgeusesiriocefeosagitariocisneganimedesoberontitaniaeris$
+junta-constelaciones-mision-estrellas:solcisnepavocefeopavopisiscefeosagitariopavocruxrheaencM-CM-)ladovesta$
+junta-constelaciones-mision-estrellas:cruxpolluxaurigaaurigasagitariohubblelibraaurigacisnelibralunatitanmimastitM-CM-!napollo 11cassini-huygensceresirisjunohebe$
+junta-constelaciones-mision-estrellas:pavodenebadharaorionsolprocyonlibracisnepavocisneorioncentaurogeminissolpolarisrigelpavoarielhubblejunochandrayaan-2victoria$
+junta-constelaciones-mision-estrellas:geminispisiscefeopolarishubblehubblepolluxcruxcalistotritM-CM-3nmirandaartemispallas$
+junta-constelaciones-mision-estrellas:sagitariorigelsiriodenebachenarpisissagitariopavojunoadharasoyuzhygiea$
+junta-constelaciones-mision-estrellas:pavopolarisaltaircefeopavocruxpavoioeuropaumbrielgalemede$
+======================== Fin del test 1b =======================
