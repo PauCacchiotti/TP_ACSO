@@ -4,6 +4,7 @@
 #include <sys/wait.h>
 #include <string.h>
 #include <ctype.h>
+#include <wordexp.h>  
 
 #define MAX_COMMANDS 200
 
@@ -71,11 +72,17 @@ int main() {
                     close(curr_pipe[1]);
                 }
 
-                char *args[64];
-                parse_args(commands[i], args);
-                execvp(args[0], args);
+                wordexp_t p;
+                if (wordexp(commands[i], &p, 0) != 0) {
+                    fprintf(stderr, "Error al parsear argumentos\n");
+                    exit(1);
+                }
+
+                execvp(p.we_wordv[0], p.we_wordv);
                 perror("execvp");
+                wordfree(&p);
                 exit(1);
+
             }
 
             if (i > 0) {

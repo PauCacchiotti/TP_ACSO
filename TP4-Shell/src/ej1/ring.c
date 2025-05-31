@@ -78,6 +78,7 @@ int main(int argc, char **argv){
 
 	for (int i = 0; i < n; i++) wait(NULL);
 
-	printf("El valor final recibido por el padre es: %d\n", buffer[0]);
+	printf("El valor final es: %d\n", buffer[0]);
+
 	return 0;
 }
