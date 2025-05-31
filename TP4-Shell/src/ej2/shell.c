@@ -8,24 +8,6 @@
 
 #define MAX_COMMANDS 200
 
-void parse_args(char *cmd, char **argv) {
-    int i = 0;
-    while (*cmd) {
-        while (isspace(*cmd)) cmd++; 
-        if (*cmd == '"') {
-            cmd++; 
-            argv[i++] = cmd;
-            while (*cmd && *cmd != '"') cmd++;
-            if (*cmd) *cmd++ = '\0'; 
-        } else if (*cmd) {
-            argv[i++] = cmd;
-            while (*cmd && !isspace(*cmd)) cmd++;
-            if (*cmd) *cmd++ = '\0';
-        }
-    }
-    argv[i] = NULL;
-}
-
 int main() {
     char command[256];
     char *commands[MAX_COMMANDS];
