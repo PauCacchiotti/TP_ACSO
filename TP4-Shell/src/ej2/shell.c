@@ -51,7 +51,7 @@ int main() {
                 if (i < command_count - 1) {
                     dup2(curr_pipe[1], STDOUT_FILENO);
                     close(curr_pipe[0]);
-                    close(curr_pipe[1]);
+                    close(curr_pipe[1]); 
                 }
 
                 wordexp_t p;

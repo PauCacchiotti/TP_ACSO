@@ -6,7 +6,7 @@
 
 int main(int argc, char **argv){	
 	int start, pid, n;
-	int buffer[1]; 
+	int buffer[1];  
 
 	if (argc != 4){
 		printf("Uso: anillo <n> <c> <s> \n");
