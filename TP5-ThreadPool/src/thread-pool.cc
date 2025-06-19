@@ -1,11 +1,3 @@
-/**
- * File: thread-pool.cc
- * --------------------
- * Presents the implementation of the ThreadPool class.
- */
-
-//  dejar el makefile mio en un readme
-
 #include <iostream>
 #include "thread-pool.h"
 using namespace std;
@@ -15,14 +7,12 @@ ThreadPool::ThreadPool(size_t numThreads)
       workersAvailable(numThreads),
       done(false) {
 
-    // Crear los threads trabajadores
     for (size_t i = 0; i < numThreads; ++i) {
         wts[i].ts = thread([this, i]() {
             worker(i);
         });
     }
 
-    // Crear el thread despachador
     dt = thread([this]() {
         dispatcher();
     });
@@ -61,7 +51,7 @@ void ThreadPool::dispatcher() {
                 nextTask = tasks.front();
                 tasks.pop();
             } else {
-                continue;  // Nada que hacer
+                continue;  
             }
         }
 
@@ -79,11 +69,10 @@ void ThreadPool::dispatcher() {
             }
         }
 
-        // Seguridad extra (nunca debería pasar)
         if (!assigned) {
             lock_guard<mutex> lock(queueLock);
             tasks.push(nextTask);
-            workersAvailable.signal();  // Devolvemos el worker
+            workersAvailable.signal();  
         }
     }
 }
@@ -123,20 +112,18 @@ void ThreadPool::wait() {
 
 
 ThreadPool::~ThreadPool() {
-    // Primero: esperar a que todas las tareas terminen
     wait();
 
-    // Segundo: marcar como terminado y despertar threads
     {
         lock_guard<mutex> lg(doneMutex);
         done = true;
     }
 
-    tasksAvailable.signal();  // despertar dispatcher
+    tasksAvailable.signal();  
     if (dt.joinable()) dt.join();
 
     for (auto& w : wts) {
-        w.ready.signal();  // despertar workers
+        w.ready.signal();  
     }
 
     for (auto& w : wts) {

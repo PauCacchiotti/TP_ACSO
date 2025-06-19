@@ -1,23 +1,14 @@
-/**
- * File: thread-pool.h
- * -------------------
- * This class defines the ThreadPool class, which accepts a collection
- * of thunks (which are zero-argument functions that don't return a value)
- * and schedules them in a FIFO manner to be executed by a constant number
- * of child threads that exist solely to invoke previously scheduled thunks.
- */
-
 #ifndef _thread_pool_
 #define _thread_pool_
 
-#include <cstddef>      // for size_t
-#include <functional>   // for function<void(void)>
-#include <thread>       // for thread
-#include <vector>       // for vector
-#include <queue>        // for queue
-#include <mutex>        // for mutex
-#include <condition_variable> // for condition_variable_any
-#include "Semaphore.h" // for Semaphore
+#include <cstddef>      
+#include <functional>  
+#include <thread>      
+#include <vector>       
+#include <queue>        
+#include <mutex>        
+#include <condition_variable> 
+#include "Semaphore.h" 
 
 using namespace std;
 
@@ -41,58 +32,33 @@ typedef struct worker {
 
 class ThreadPool {
   public:
-
-  /**
-  * Constructs a ThreadPool configured to spawn up to the specified
-  * number of threads.
-  */
     ThreadPool(size_t numThreads);
 
-  /**
-  * Schedules the provided thunk (which is something that can
-  * be invoked as a zero-argument function without a return value)
-  * to be executed by one of the ThreadPool's threads as soon as
-  * all previously scheduled thunks have been handled.
-  */
     void schedule(const function<void(void)>& thunk);
 
-  /**
-  * Blocks and waits until all previously scheduled thunks
-  * have been executed in full.
-  */
     void wait();
 
-  /**
-  * Waits for all previously scheduled thunks to execute, and then
-  * properly brings down the ThreadPool and any resources tapped
-  * over the course of its lifetime.
-  */
     ~ThreadPool();
     
 private:
-    void dispatcher();               // dispatcher loop
-    void worker(int id);            // worker loop
+    void dispatcher();               
+    void worker(int id);            
 
-    thread dt;                      // dispatcher thread
-    vector<worker_t> wts;           // worker threads
+    thread dt;                      
+    vector<worker_t> wts;           
 
-    // Task management
     queue<function<void(void)>> tasks;
-    mutex queueLock;                // protects access to the task queue
+    mutex queueLock;                
 
-    // Worker coordination
-    Semaphore tasksAvailable{0};    // signals dispatcher when a task is added
-    Semaphore workersAvailable;     // signals when workers are free
+    Semaphore tasksAvailable{0};    
+    Semaphore workersAvailable;    
 
-    // Task completion
-    int runningTasks = 0;           // tracks tasks currently executing
-    mutex doneMutex;                // protects runningTasks
+    int runningTasks = 0;           
+    mutex doneMutex;                
     condition_variable_any allDoneCond;
 
-    // Shutdown
-    bool done;                      // flag to signal shutdown
+    bool done;                     
 
-    // Disable copy and assignment
     ThreadPool(const ThreadPool& original) = delete;
     ThreadPool& operator=(const ThreadPool& rhs) = delete;
 };
