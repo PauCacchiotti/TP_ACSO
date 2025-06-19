@@ -10,10 +10,13 @@
 #ifndef _thread_pool_
 #define _thread_pool_
 
-#include <cstddef>     // for size_t
-#include <functional>  // for the function template used in the schedule signature
-#include <thread>      // for thread
-#include <vector>      // for vector
+#include <cstddef>      // for size_t
+#include <functional>   // for function<void(void)>
+#include <thread>       // for thread
+#include <vector>       // for vector
+#include <queue>        // for queue
+#include <mutex>        // for mutex
+#include <condition_variable> // for condition_variable_any
 #include "Semaphore.h" // for Semaphore
 
 using namespace std;
@@ -31,9 +34,9 @@ using namespace std;
 typedef struct worker {
     thread ts;
     function<void(void)> thunk;
-    /**
-     * Complete the definition of the worker_t struct here...
-     **/
+    Semaphore ready{0};     
+    bool available = true;  
+    mutex mtx;              
 } worker_t;
 
 class ThreadPool {
@@ -66,27 +69,32 @@ class ThreadPool {
   */
     ~ThreadPool();
     
-  private:
+private:
+    void dispatcher();               // dispatcher loop
+    void worker(int id);            // worker loop
 
-    void worker(int id);
-    void dispatcher();
-    thread dt;                              // dispatcher thread handle
-    vector<worker_t> wts;                   // worker thread handles. you may want to change/remove this
-    bool done;                              // flag to indicate the pool is being destroyed
-    mutex queueLock;                        // mutex to protect the queue of tasks
+    thread dt;                      // dispatcher thread
+    vector<worker_t> wts;           // worker threads
 
-    /* It is incomplete, there should be more private variables to manage the structures... 
-    * *
-    */
-  
-    /* ThreadPools are the type of thing that shouldn't be cloneable, since it's
-    * not clear what it means to clone a ThreadPool (should copies of all outstanding
-    * functions to be executed be copied?).
-    *
-    * In order to prevent cloning, we remove the copy constructor and the
-    * assignment operator.  By doing so, the compiler will ensure we never clone
-    * a ThreadPool. */
+    // Task management
+    queue<function<void(void)>> tasks;
+    mutex queueLock;                // protects access to the task queue
+
+    // Worker coordination
+    Semaphore tasksAvailable{0};    // signals dispatcher when a task is added
+    Semaphore workersAvailable;     // signals when workers are free
+
+    // Task completion
+    int runningTasks = 0;           // tracks tasks currently executing
+    mutex doneMutex;                // protects runningTasks
+    condition_variable_any allDoneCond;
+
+    // Shutdown
+    bool done;                      // flag to signal shutdown
+
+    // Disable copy and assignment
     ThreadPool(const ThreadPool& original) = delete;
     ThreadPool& operator=(const ThreadPool& rhs) = delete;
 };
+
 #endif
